@@ -1,0 +1,62 @@
+= RATIONALE
+
+== Wedjat::Test
+
+=== Organization of folders and files.
+
+* One test file per each public method
+* instance method files will be named like `/"#{method_name}_test.rb"/
+* class method files need to be prefixed by a character which would satisfy the following conditions:
+** Can not be used as the first letter of a method name.
+** Would play well with command line operations on file names.
+** Should be able to be configurable
+** Should be inline with some community convention
+** Should play well with special methods names
+
+** Rationale
+*** `'::'  It is used as convention for class methods. 
+**** Does not play well with command line operations.
+
+*** `'.' It is used as a convention for class methods. 
+**** It is used for hidden files.
+
+*** Special methods
+**** `'+   -   * ** /   =   ==  ===  !=    >   <   >=    <=    [] ~ !~ =~ ! ^ >> << ` | & %'
+**** These methods are allowed to be used in the definition of a class of instance method
+**** The characters used by this methods can not be used in any other type of combination
+
+*** Characters used as method name first character:
+**** `'_' and lower case letters [a-z]
+
+*** Numbers
+**** Ex: 0_[]_test.rb
+         0_foo_test.rb
+**** What is the meaning of \`'0'?
+
+*** Capital letters
+**** Ex: Foo_test.rb
+**** Problem: Special methods?
+
+** Decision
+
+From all of this Rationale I will favour:
+
+>> `'::foo_test.rb'
+
+NOTE: 
+> In command-line we need to escape the colons.
+> But we should allow it to be configurable.
+
+NOTE:
+> ~~Special methods~~
+> We have a problem here because not all special methods will be able to have a file name.
+> The operating system doesn't allow it.
+
+> What shall we do in those situations?
+
+> Ok. Not a problem. In order to create those files we can quote the filename:
+> Ex: `/~$ touch '::<_test.rb'/
+
+
+
+
