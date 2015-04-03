@@ -1,29 +1,34 @@
 # Wedjat
 
-TODO: Write a gem description
+Wedjat is the Eye of Horus.
+It monitors everything related to the code under development.
 
-## Installation
+## Code quality
 
-Add this line to your application's Gemfile:
+## Code coverage
 
-    gem 'wedjat'
+## Code documentation
 
-And then execute:
+## Code integrity
 
-    $ bundle
+Tests should be the first documentation source for a developer.
 
-Or install it yourself as:
+Wedjat will make sure that is the case.
 
-    $ gem install wedjat
+Everything is designed with that thought in mind.
 
-## Usage
+Performance it is also a concern.
 
-TODO: Write usage instructions here
+## Using system ruby
 
-## Contributing
+### Use gem from within script
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+* Install gem with rubygems
+* require it inside the file
+* test/unit and minitest are distributed with ruby (you get them for free)
+* Lets learn how to use them first
+
+## Others
+
+* [RATIONALE](./RATIONALE.cm)
+
