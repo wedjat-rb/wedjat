@@ -58,5 +58,64 @@ NOTE:
 > Ex: `/~$ touch '::<_test.rb'/
 
 
+=== Auxiliary files
+
+* Each class or module will have a folder in the `'test/unit' suite.
+* In each folder we should have one or more auxiliary files.
+* Each auxiliary ruby file will be a ruby file required by one or more test files within the folder or subfolders.
+* This auxiliary files can also be put in a special directory.
+* The special directory will store files with common functionality.
+* The special directory should be on the `'$LOAD_PATH'
+* Current directory is always on the `'$LOAD_PATH'
+* We have then two directories to had to the `'$LOAD_PATH'
+** current directory
+** special directory
+> This way making auxiliary file available to sub folders is out of option for the time being.
+> Common code to be used across folders should go to the special directory.
+> 
+> We should keep things simple!
+
+==== How shall we name this things? What conventions?
+
+===== Special/Auxiliary file
+
+* The auxiliary file will have a class
+* The class will be under the lib file namespace
+
+  Ex: 
+  Lib file: `'lib/foo/bar/baz.rb'
+  Lib file module/class namespace: `'::Foo::Bar::Baz'
+  Auxiliary file: `'test/foo/bar/baz/auxiliary.rb'
+  Auxiliary file class namespace: `'::Foo::Bar::Baz::Auxiliary'
+
+* This means that Auxiliary will be a reserved namespace
+* As a pattern all test files should be identified by the `'*_test.rb' suffix.
+* This means that Auxiliary file can not be `'auxiliary_test.rb'
+* Auxiliary would make sense to be wedjat.
+* `'Wedjat' however will be a lot of things.
+
+  `'Wedjat::Test' as in `'wedjat_test.rb' would be the proper thing to use.
+  It has some problems:
+
+** Name is to big. 
+** Collides with the test files suffix ==> `'foo_test.rb'
+
+* What is the problem if we use `'wedjat.rb'?
+* Can we make it more generic and allow anything?
+* Maybe a different suffix: `'foo_wedjat.rb'
+* Or anything `'wedjat' like: `'*_wedjat.rb'
+  being `'wedjat.rb' the default auxiliary file?
+* This way `'Wedjat' will be a reserved namespace?
+  No!
+  If anyone wants to use it they will be able to use a `'*_wedjat.rb' file/class.
+
+
+
+
+===== Special/Auxiliary directory
+
+
+
+
 
 
