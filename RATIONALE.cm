@@ -47,7 +47,7 @@ Users documentation.
 
 *** Special methods
 **** `'+   -   * ** /   =   ==  ===  !=    >   <   >=    <=    [] ~ !~ =~ ! ^ >> << ` | & %'
-**** These methods are allowed to be used in the definition of a class of instance method
+**** These methods are allowed to be used in the definition of a class or instance method
 **** The characters used by this methods can not be used in any other type of combination
 
 *** Characters used as method name first character:
@@ -164,8 +164,6 @@ NOTE:
 
 * But how to identify the files?
 
-
-
 ===== Special/Auxiliary directory
 
 === Architecture
@@ -255,7 +253,5 @@ The definition of the API is something important.
 ** Extensible
 ** DDD
 ** Pure ruby
-
-
-
+=======
 
