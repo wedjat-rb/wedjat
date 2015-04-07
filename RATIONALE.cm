@@ -2,6 +2,31 @@
 
 == Wedjat::Test
 
+=== Motto
+
+Document project requirements.
+Define your initial API (Architecture docs).
+Specify clearly your requirements for each exposed action (specification docs).
+Setup the bare minimum tests (red light on).
+Implement your code (green light up).
+Deploy.
+Work internals (improve).
+Add functionality (extend).
+Be SOLID.
+Lecture the world (more docs, videos, articles, screencasts, presentations).
+
+Think first about the API.
+What shall you exposing?
+Aim for one major release for all time.
+Be consistent.
+Deliver functionality fast.
+Work the internals later.
+Add functionality without disrupting previous work.
+Be SOLID.
+Document your classes and methods.
+Developers/contributions documentation.
+Users documentation.
+
 === Organization of folders and files.
 
 * One test file per each public method
@@ -108,13 +133,128 @@ NOTE:
 * This way `'Wedjat' will be a reserved namespace?
   No!
   If anyone wants to use it they will be able to use a `'*_wedjat.rb' file/class.
+* In `'RSPEC' they use `'subject' as the main object throughout the test suite.
+  
+  `'subject' it is the instance of the class under test.
+  Not what we are looking for here.
 
+  Here it is something more like the `'shared context' stuff.
+
+* `'auxiliary' can be a module that we then include dynamically into a class definition under the "scope" namespace.
+
+* Better allow anything ruby.
+
+* As a Best Practice we will put the method name under test the class name.
+
+  Ex: 
+
+  method under test ==> `'::Foo::Bar#baz'
+  test folder ==> `'test/foo/bar'
+  test file ==> `'baz_test.rb'
+  auxiliary file ==> `'baz.rb'
+  auxiliary class ==> `'::Foo::Bar::Baz'
+
+* One auxiliary file per test file
+
+* Special methods will have files with their alias names on it.
+
+* The class name will define the method available at the test file.
+
+* That way each user can use any kind of name that suits them better.
+
+* But how to identify the files?
 
 
 
 ===== Special/Auxiliary directory
 
+=== Architecture
 
+The `'main object space' is a ::Wedjat::Test domain!
+Anything under test should not polute `'main object space'.
+
+Each test is handled by one object.
+Test suite is run by `'Wedjat::Test' after loading everything into memory?
+What is the best way?
+Optimizations?
+But we need to be able to give a report about the all test suite.
+We also need to allow parallel run of the tests.
+Gather all the information and display it.
+
+* `'::Wedjat::Test' ==> Main test interface. (gem ==> `'wedjat-test')
+* `'::Wedjat::Test::DSL' ==> Exposes methods to be used in test files. Delegates to other classes. (gem ==> `'wedjat-test')
+* `'::Wedjat::Test::Adapter' ==> Base class for auxiliary test classes(Adapters). (gem ==> `'wedjat-test')(re-evaluate name!)
+* `'::Wedjat::Test::Configuration' ==> Configure execution options. (gem ==> `'wedjat-test')
+* `'::Wedjat::Test::Kernel' ==> Receives and handles instructions accordingly (gem ==> `'wedjat-test')(internal)
+* `'::Wedjat::Test::Unit' ==> One instance per test example (gem ==> `'wedjat-test')(internal)
+* `'::Wedjat::Test::Queue' ==> Queue of test units to be run (gem ==> `'wedjat-test')(internal)
+* `'::Wedjat::Test::Poll' ==> Gathers test information and pushes `'::Wedjat::Test::Unit' instances to the tests queue (gem ==> `'wedjat-test')(internal)
+* `'::Wedjat::Test::Builder' ==> Builds test units dynamically (gem ==> `'wedjat-test')(internal)
+* `'::Wedjat::Test::Reader' ==> Reads the tests files. Understands the instructions? (gem ==> `'wedjat-test')(internal)(re-evaluate)
+* `'::Wedjat::Test::Interpreter' ==> Interprets the messages received by the reader. (gem => `'wedjat-test')(internal)(re-evaluate)
+* `'::Wedjat::Test::Suite' ==> Gather all unit tests into one suite (gem ==> `'wedjat-test')(internal)(interface from `'::Wedjat::Test' module) 
+* `'::Wedjat::Test::Monitor' ==> Monitor current execution status (gem ==> `'wedjat-test')(internal)(interface from `'::Wedjat::Test' module)(plugin extendable)
+* `'::Wedjat::Test::Runner' ==> Run each one of the unit tests (gem ==> `'wedjat-test')(internal)
+* `'::Wedjat::Test::Parallel' ==> Run tests in parallel (gem ==> `'wedjat-test')(internal)(interface from `'::Wedjat::Test' module)
+* `'::Wedjat::Test::Report' ==> Report tests runned (gem ==> `'wedjat-test')(internal)(interface from `'::Wedjat::Test' module)(plugin extendable)
+
+* `'::Wedjat::Assertions' ==> Assertions module (gem ==> `'wedjat-assertions') 
+* `'::Wedjat::Expectations' ==> Expectations module (gem ==> `'wedjat-assertions')
+* `'::Wedjat::Mock' ==> Mock functionality add-on to objects (gem ==> `'wedjat-mock') 
+
+=== Running tests
+
+==== Two ways of running tests
+
+===== wedjat --test command
+
+* wedjat will flag ::Wedjat::Test.suite
+* The ::Wedjat::Test.suite run will be under full control
+* Anything will be possible
+
+===== ruby over single file or list of files
+
+* Control of ::Wedjat::Test.suite run will be limited
+* Test file will tell what to be run
+* The run instruction is not on the test file side
+* The run instruction should be on ::Wedjat::Test.suite side
+* test registration should be made by the initialize mechanism
+* The assert/test/expect/should/ok command should trigger the run
+* By default it run each test as soon the assert command is defined
+* The run will start to generate the report and print the results
+
+=== API
+
+The definition of the API is something important.
+
+==== What would be the perfect API?
+
+* No nested blocks to describe tests!
+* No describe and context blocks.
+* No nested describe and context blocks.
+* Just single and independent tests.
+* It should allow generation of documentation
+* It should allow generation of specification
+* It should allow understanding of functionality
+* It should be plain old ruby
+* A single test file should be able to be run by ruby command
+* Wedjat::Test should provide command to run one or more test files.
+* It should rely on ruby conventions
+* It should be as simple as possible
+* Ruby is almost all you need to know
+* Wedjat::Test documentation should be bare minimum
+* Give freedom to the developer with solid and self contained rules
+* Promote best practices
+* Clear and stable API
+* Self contained API like always
+* Allow plugin system for costumization
+* Marketing headline:
+** Minimum code lines
+** Maximum performance
+** Simple design
+** Extensible
+** DDD
+** Pure ruby
 
 
 
